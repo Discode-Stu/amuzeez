@@ -299,7 +299,7 @@ export default function Home() {
             ))}
           </div>
           <form
-            className="w-full flex justify-center mb-4 mt-4 w-full"
+            className="w-full flex items-center justify-center mb-4 mt-4 w-full gap-2"
             onSubmit={(event) =>
               handleAddActivity(event, selectedActivityType, addedActivity)
             }
@@ -313,6 +313,27 @@ export default function Home() {
               onChange={(event) => setAddedActivity(event.target.value)}
               placeholder="Type here to add new activity"
             />
+            <button
+              className="border-2 border-gray-800 rounded-md p-1 max-h-12 mt-4"
+              style={{
+                boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+            </button>
           </form>
         </div>
       </main>
