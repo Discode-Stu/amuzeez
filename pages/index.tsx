@@ -320,7 +320,7 @@ export default function Home() {
   }
 
   return (
-    <main className="p-8 flex justify-center slotMachine">
+    <main className="p-4 flex justify-center slotMachine">
       <div
         className="w-full p-4 bg-gray-700 rounded-3xl relative"
         style={{ maxWidth: 600, minWidth: 400 }}
