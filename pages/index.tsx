@@ -322,7 +322,7 @@ export default function Home() {
   return (
     <main className="p-8 flex justify-center slotMachine">
       <div
-        className="w-full p-4 bg-gray-700 rounded-3xl relative"
+        className="w-full p-8 bg-gray-700 rounded-3xl relative"
         style={{ maxWidth: 600, minWidth: 400 }}
       >
         <div className="absolute top-0 right-0 p-2">
