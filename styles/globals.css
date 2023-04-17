@@ -25,3 +25,61 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.activityTypeButtonsContainer {
+  /* display: flex; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px !important;
+}
+
+.activityTypeButtons {
+  min-width: 80px;
+  font-size: 15px;
+}
+
+.slotMachine {
+  padding: 20px;
+  width: 100vw;
+}
+
+@media screen and (max-width: 600px) {
+  .activityTypeButtonsContainer {
+    gap: 20px !important;
+    padding-right: 30px;
+  }
+
+  .activityTypeButtons {
+    min-width: 60px;
+    font-size: 12px;
+  }
+}
+
+.red {
+  border: 1px solid red;
+}
+/* @media screen and (max-width: 480px) {
+  .activityTypeButtonsContainer {
+    gap: 10px !important;
+    justify-content: space-around;
+    padding-right: 30px;
+  }
+
+  .activityTypeButtons {
+    min-width: 40px;
+    font-size: 10px;
+  }
+} */
+@media screen and (max-width: 400px) {
+  .activityTypeButtonsContainer {
+    gap: 5px !important;
+    justify-content: space-around;
+    padding-right: 30px;
+  }
+
+  .activityTypeButtons {
+    min-width: 40px;
+    font-size: 12px;
+  }
+}

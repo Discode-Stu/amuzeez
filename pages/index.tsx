@@ -215,7 +215,7 @@ export default function Home() {
 
   if (openActivityManager) {
     return (
-      <main className="p-8 flex items-center justify-center flex-col gap-8">
+      <main className="p-4 flex items-center justify-center flex-col gap-8">
         <div
           className="w-full bg-gray-700 rounded-3xl relative"
           style={{ maxWidth: 600 }}
@@ -239,12 +239,13 @@ export default function Home() {
             </button>
           </div>
           <div className="flex justify-center border-b border-gray-800 p-2">
-            <div className="flex items-center justify-center w-full h-full gap-6 p-2">
+            <div className="w-full h-full activityTypeButtonsContainer p-2">
+              {/* <div className="flex items-center justify-center w-full h-full activityTypeButtonsContainer p-2"> */}
               {Object.values(activities).map((act) => (
                 <button
                   key={act.id}
-                  style={{ fontSize: 15, minWidth: 80 }}
-                  className={`outline-none text-white font-bold  ${
+                  // style={{ fontSize: 15, }}
+                  className={`outline-none text-white font-bold activityTypeButtons ${
                     act.type === selectedActivityType
                       ? "outline-4 outline-gray-500"
                       : "outline-gray-600"
@@ -319,10 +320,10 @@ export default function Home() {
   }
 
   return (
-    <main className="p-8 flex items-center justify-center flex-col gap-8">
+    <main className="p-8 flex justify-center slotMachine">
       <div
         className="w-full p-4 bg-gray-700 rounded-3xl relative"
-        style={{ maxWidth: 600 }}
+        style={{ maxWidth: 600, minWidth: 400 }}
       >
         <div className="absolute top-0 right-0 p-2">
           <button onClick={() => setOpenActivityManager(true)}>
