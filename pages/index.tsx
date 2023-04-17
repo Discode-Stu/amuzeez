@@ -365,10 +365,7 @@ export default function Home() {
           </button>
         </div>
 
-        <div
-          className={`flex items-center justify-center flex-col gap-1 mt-4`}
-          style={{ transform: "translateX(-6%)" }}
-        >
+        <div className={`flex items-center justify-center flex-col gap-1 mt-4`}>
           <div className="z-1 relative" style={{ width: 500, height: 500 }}>
             <Image src="/slot4.png" alt="slot" fill={true} />
             <div
