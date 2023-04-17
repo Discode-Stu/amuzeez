@@ -341,10 +341,10 @@ export default function Home() {
   }
 
   return (
-    <main className="p-4 flex justify-center slotMachine">
+    <main className="p-4 flex items-center justify-center flex-col gap-8">
       <div
-        className="w-full p-4 bg-gray-700 rounded-3xl relative"
-        style={{ maxWidth: 600, minWidth: 400 }}
+        className="w-full bg-gray-700 rounded-3xl relative ml-8"
+        style={{ maxWidth: 600, minWidth: 420 }}
       >
         <div className="absolute top-0 right-0 p-2">
           <button onClick={() => setOpenActivityManager(true)}>
