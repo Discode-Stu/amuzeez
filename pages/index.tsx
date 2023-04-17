@@ -347,7 +347,7 @@ export default function Home() {
         <div
           className={`flex items-center justify-center flex-col gap-1 p-2 mt-4`}
         >
-          <div className="z-1 relative" style={{ width: 500, height: 500 }}>
+          <div className="z-1 relative" style={{ width: 400, height: 400 }}>
             <Image src="/slot4.png" alt="slot" fill={true} />
             <div
               className="absolute bg-gray-600 rounded-md p-2"
