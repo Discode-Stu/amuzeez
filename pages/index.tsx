@@ -220,11 +220,11 @@ export default function Home() {
           className="w-full bg-gray-700 rounded-3xl relative"
           style={{ maxWidth: 600 }}
         >
-          <div className="absolute top-0 right-0 p-2">
+          <div className="absolute top-1 right-1 p-2">
             <button onClick={() => setOpenActivityManager(false)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-gray-800"
+                className="h-7 w-7 text-gray-800"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="white"
@@ -343,14 +343,14 @@ export default function Home() {
   return (
     <main className="p-4 flex justify-center">
       <div
-        className="w-full bg-gray-700 rounded-3xl relative justify-center"
-        style={{ maxWidth: 600, minWidth: 420 }}
+        className="w-full bg-gray-700 rounded-3xl relative justify-center z-3 p-8"
+        style={{ maxWidth: 600, minWidth: 400 }}
       >
-        <div className="absolute top-0 right-0 p-2">
+        <div className="absolute top-1 right-1 p-2 z-5">
           <button onClick={() => setOpenActivityManager(true)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-10 w-10"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -365,7 +365,9 @@ export default function Home() {
           </button>
         </div>
 
-        <div className={`flex items-center justify-center flex-col gap-1 mt-4`}>
+        <div
+          className={`flex items-center justify-center flex-col gap-1 mt-4 z-4`}
+        >
           <div className="z-1 relative" style={{ width: 500, height: 500 }}>
             <Image src="/slot4.png" alt="slot" fill={true} />
             <div
