@@ -70,6 +70,12 @@ export const activities = {
     display: "Just for fun",
     type: "FUN",
   },
+  DRIVE: {
+    id: 4,
+    activities: ["Turn left", "Turn right", "Go straight", "Stop"],
+    display: "Drive",
+    type: "DRIVE",
+  },
 }
 
 const activityTypes = Object.keys(activities)

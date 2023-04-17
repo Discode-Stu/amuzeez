@@ -241,22 +241,22 @@ export default function Home() {
           <div className="flex justify-center border-b border-gray-800 p-2">
             <div className="w-full h-full activityTypeButtonsContainer p-2">
               {/* <div className="flex items-center justify-center w-full h-full activityTypeButtonsContainer p-2"> */}
-              {Object.values(activities).map((act) => (
+              {Object.values(activities).map((activity) => (
                 <button
-                  key={act.id}
+                  key={activity.id}
                   // style={{ fontSize: 15, }}
                   className={`outline-none text-white font-bold activityTypeButtons ${
-                    act.type === selectedActivityType
+                    activity.type === selectedActivityType
                       ? "outline-4 outline-gray-500"
                       : "outline-gray-600"
                   } rounded-lg p-1 whitespace-nowrap`}
                   onClick={(e) => {
                     e.stopPropagation()
                     resetChosenActivity()
-                    setSelectedActivityType(act.type)
+                    setSelectedActivityType(activity.type)
                   }}
                 >
-                  {act.display}
+                  {activity.display}
                 </button>
               ))}
             </div>
@@ -414,21 +414,21 @@ export default function Home() {
               </span>
             </div>
             <div
-              className="absolute flex items-center justify-center w-full h-full gap-4 z-11"
+              className="absolute flex items-center justify-center w-full h-full gap-3 z-11"
               style={{
                 bottom: "-110px",
-                left: "-7px",
+                left: "-9px",
               }}
             >
               {Object.values(activities).map((act) => (
                 <button
                   key={act.id}
-                  style={{ fontSize: 15 }}
+                  style={{ fontSize: 13, padding: 3.5 }}
                   className={`outline-none text-black font-bold ${
                     act.type === selectedActivityType
                       ? "outline-4 outline-black"
                       : "outline-gray-600"
-                  } rounded-lg p-1 whitespace-nowrap`}
+                  } rounded-lg whitespace-nowrap`}
                   onClick={(e) => {
                     e.stopPropagation()
                     resetChosenActivity()
