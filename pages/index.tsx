@@ -341,9 +341,9 @@ export default function Home() {
   }
 
   return (
-    <main className="p-4 flex items-center justify-center flex-col gap-8">
+    <main className="p-4 flex">
       <div
-        className="w-full bg-gray-700 rounded-3xl relative ml-8"
+        className="w-full bg-gray-700 rounded-3xl relative"
         style={{ maxWidth: 600, minWidth: 420 }}
       >
         <div className="absolute top-0 right-0 p-2">
@@ -366,7 +366,8 @@ export default function Home() {
         </div>
 
         <div
-          className={`flex items-center justify-center flex-col gap-1 p-2 mt-4`}
+          className={`flex items-center justify-center flex-col gap-1 mt-4`}
+          style={{ transform: "translateX(-6%)" }}
         >
           <div className="z-1 relative" style={{ width: 500, height: 500 }}>
             <Image src="/slot4.png" alt="slot" fill={true} />
