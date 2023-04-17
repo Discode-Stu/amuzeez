@@ -320,9 +320,9 @@ export default function Home() {
   }
 
   return (
-    <main className="p-8 flex justify-center slotMachine">
+    <main className="p-2 flex justify-center slotMachine">
       <div
-        className="w-full p-8 bg-gray-700 rounded-3xl relative"
+        className="w-full p-2 bg-gray-700 rounded-3xl relative"
         style={{ maxWidth: 600, minWidth: 400 }}
       >
         <div className="absolute top-0 right-0 p-2">
@@ -347,7 +347,7 @@ export default function Home() {
         <div
           className={`flex items-center justify-center flex-col gap-1 p-2 mt-4`}
         >
-          <div className="z-1 relative p-4" style={{ width: 400, height: 400 }}>
+          <div className="z-1 relative" style={{ width: 500, height: 500 }}>
             <Image src="/slot4.png" alt="slot" fill={true} />
             <div
               className="absolute bg-gray-600 rounded-md p-2"
