@@ -341,9 +341,9 @@ export default function Home() {
   }
 
   return (
-    <main className="p-4 flex">
+    <main className="p-4 flex justify-center">
       <div
-        className="w-full bg-gray-700 rounded-3xl relative"
+        className="w-full bg-gray-700 rounded-3xl relative justify-center"
         style={{ maxWidth: 600, minWidth: 420 }}
       >
         <div className="absolute top-0 right-0 p-2">
