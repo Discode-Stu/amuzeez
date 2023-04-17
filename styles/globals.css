@@ -40,8 +40,8 @@ body {
 }
 
 .slotMachine {
-  padding: 20px;
-  width: 100vw;
+  /* padding: 20px; */
+  /* width: 100vw; */
 }
 
 @media screen and (max-width: 600px) {
