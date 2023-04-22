@@ -55,7 +55,9 @@ body {
     font-size: 10px;
   }
 }
-
+.test {
+  /* min-width: 100vw; */
+}
 .red {
   border: 1px solid red;
 }

@@ -1,8 +1,17 @@
 import Image from "next/image"
 import { Inter } from "next/font/google"
-import { useCallback, useReducer, useState } from "react"
+import React, { useCallback, useReducer, useState, memo } from "react"
 import { activities, activityTypeMap } from "@/constants"
 
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
+
+// const paypalClientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID
+const paypalClientId: string = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || ""
+const amounts = ["2", "5", "10", "20", "50", "100"]
+
+// const amount = "2"
+const currency = "USD"
+const style: object = { layout: "vertical" }
 // const inter = Inter({ subsets: ["latin"] })
 
 interface State {
@@ -52,7 +61,45 @@ function reducer(state: State, action: Action) {
   }
 }
 
-export default function Home() {
+export default function Main() {
+  const [amount, setAmount] = useState<string>("2")
+
+  return (
+    <main className="flex flex-col justify-center items-center">
+      <Home />
+      <div className="flex flex-col items-center justify-center gap-4 mb-12">
+        <h1 className="text-2xl font-bold">Support Amuzeez</h1>
+        <div className="flex items-center justify-center gap-4">
+          {amounts.map((amt) => (
+            <button
+              key={amt}
+              style={{ cursor: "pointer" }}
+              className={`${
+                amt === amount
+                  ? "bg-red-500 text-white"
+                  : "bg-gray-200 text-gray-800"
+              } font-bold py-2 px-4 rounded`}
+              onClick={() => setAmount(amt)}
+            >
+              ${amt}
+            </button>
+          ))}
+        </div>
+      </div>
+      {amounts.map((amt) => (
+        <div
+          key={amt}
+          className={`${amt === amount ? "block" : "hidden"}`}
+          onClick={() => setAmount(amt)}
+        >
+          <PayPal amount={amt} />
+        </div>
+      ))}
+    </main>
+  )
+}
+
+function Home() {
   const [state, dispatch] = useReducer(reducer, activities)
   const [addedActivity, setAddedActivity] = useState<string>("")
 
@@ -213,9 +260,10 @@ export default function Home() {
     }, 3100)
   }, [state, selectedActivityType])
 
+  //! menu items
   if (openActivityManager) {
     return (
-      <main className="p-4 flex items-center justify-center flex-col gap-8">
+      <div className="p-4 flex items-center justify-center flex-col gap-8">
         <div
           className="w-full bg-gray-700 rounded-3xl relative"
           style={{ maxWidth: 600 }}
@@ -336,12 +384,14 @@ export default function Home() {
             </button>
           </form>
         </div>
-      </main>
+      </div>
     )
   }
 
+  //! main page
   return (
-    <main className="p-4 flex justify-center">
+    // <main className="p-4 flex items-center justify-center flex-col gap-8">
+    <div className="p-4 flex justify-center items-center flex-col ">
       <div
         className="w-full bg-gray-700 rounded-3xl relative justify-center z-3 p-8"
         style={{ maxWidth: 600, minWidth: 400 }}
@@ -458,9 +508,70 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   )
 }
+
+//! paypal
+// function PayPal() {
+function PayPalNoMemo({ amount }: { amount: string }) {
+  const [openThankYou, setOpenThankYou] = useState<boolean>(false)
+
+  return (
+    <div className="flex flex-col items-center relative pt-4">
+      {openThankYou && (
+        <div
+          className="mb-4 absolute"
+          style={{
+            top: "-45px",
+            right: "-50px",
+          }}
+        >
+          <h1 className="text-xl font-bold text-center">Thank you!</h1>
+          <span className="text-sm text-gray-500 whitespace-nowrap text-center">
+            Your payment has been successfully processed.
+          </span>
+        </div>
+      )}
+
+      <PayPalScriptProvider options={{ "client-id": paypalClientId }}>
+        <PayPalButtons
+          style={style}
+          createOrder={(data, actions) => {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  amount: {
+                    // currency_code: currency,
+                    value: amount,
+                    // value: "6.54",
+                  },
+                },
+              ],
+            })
+            // .then((orderId) => {
+            //   // Your code here after create the order
+            //   return orderId
+            // })
+          }}
+          onApprove={function (data, actions) {
+            return (
+              actions?.order?.capture()?.then(function () {
+                // Your code here after capture the order
+                setOpenThankYou(true)
+                setTimeout(() => {
+                  setOpenThankYou(false)
+                }, 4000)
+              }) ?? Promise.resolve()
+            )
+          }}
+        />
+      </PayPalScriptProvider>
+    </div>
+  )
+}
+
+const PayPal = React.memo(PayPalNoMemo)
 
 // <main className="flex min-h-screen flex-col items-center justify-between p-24">
 // <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
