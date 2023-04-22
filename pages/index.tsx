@@ -69,7 +69,7 @@ export default function Main() {
       <Home />
       <div className="flex flex-col items-center justify-center gap-4 mb-12">
         <h1 className="text-2xl font-bold">Support Amuzeez</h1>
-        <div className="flex items-center justify-center gap-4">
+        <div className="grid items-center justify-center gap-4 grid-cols-3">
           {amounts.map((amt) => (
             <button
               key={amt}
