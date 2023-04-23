@@ -10,6 +10,8 @@ import React, {
 } from "react"
 import { activities, activityTypeMap } from "@/constants"
 
+// import leverSound from "../public/leverSound.wav"
+
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 
 // const paypalClientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID
@@ -151,6 +153,7 @@ function MoneyButtons({
     </div>
   )
 }
+
 function MoneyButtonsSlot({
   amount,
   handleSetAmount,
@@ -256,7 +259,13 @@ function Home({
     [dispatch]
   )
 
+  const playSound = useCallback(() => {
+    const audio = new Audio("/leverSound.wav")
+    audio.play()
+  }, [])
+
   const selectRandomActivity = useCallback(() => {
+    playSound()
     setSpinCount((prev) => prev + 1)
     const randomActivity =
       state[selectedActivityType].activities[
@@ -623,8 +632,14 @@ function Home({
                   } rounded-lg whitespace-nowrap`}
                   onClick={(e) => {
                     e.stopPropagation()
-                    resetChosenActivity()
-                    setSelectedActivityType(act.type)
+                    if (act.type === selectedActivityType) {
+                      selectRandomActivity()
+                    } else if (showSupport) {
+                      return
+                    } else {
+                      resetChosenActivity()
+                      setSelectedActivityType(act.type)
+                    }
                   }}
                 >
                   {act.display}
