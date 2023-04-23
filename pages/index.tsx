@@ -1,6 +1,13 @@
 import Image from "next/image"
 import { Inter } from "next/font/google"
-import React, { useCallback, useReducer, useState, memo } from "react"
+import React, {
+  useCallback,
+  useReducer,
+  useState,
+  memo,
+  useRef,
+  useMemo,
+} from "react"
 import { activities, activityTypeMap } from "@/constants"
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
@@ -61,30 +68,40 @@ function reducer(state: State, action: Action) {
   }
 }
 
+// function scrollToBottom() {
+//   window.scrollTo(0, document.body.scrollHeight)
+// }
+
 export default function Main() {
   const [amount, setAmount] = useState<string>("2")
 
+  const bottomRef = useRef<HTMLDivElement>(null)
+
+  const handleSetAmount = (amount: string) => {
+    setAmount(amount)
+
+    if (bottomRef.current) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth",
+      })
+    }
+  }
+
   return (
-    <main className="flex flex-col justify-center items-center">
-      <Home />
-      <div className="flex flex-col items-center justify-center gap-4 mb-12">
-        <h1 className="text-2xl font-bold">Support Amuzeez</h1>
-        <div className="grid items-center justify-center gap-4 grid-cols-3">
-          {amounts.map((amt) => (
-            <button
-              key={amt}
-              style={{ cursor: "pointer" }}
-              className={`${
-                amt === amount
-                  ? "bg-red-500 text-white"
-                  : "bg-gray-200 text-gray-800"
-              } font-bold py-2 px-4 rounded`}
-              onClick={() => setAmount(amt)}
-            >
-              ${amt}
-            </button>
-          ))}
-        </div>
+    <main className="flex flex-col justify-center items-center relative">
+      <div className="z-10">
+        <Home
+          amount={amount}
+          setAmount={setAmount}
+          handleSetAmount={handleSetAmount}
+        />
+      </div>
+      <div
+        // onClick={zoomToBottomRef}
+        className="flex flex-col items-center justify-center gap-4 mb-2 z-20"
+      >
+        <MoneyButtons amount={amount} handleSetAmount={handleSetAmount} />
       </div>
       {amounts.map((amt) => (
         <div
@@ -95,11 +112,81 @@ export default function Main() {
           <PayPal amount={amt} />
         </div>
       ))}
+      <div ref={bottomRef} style={{ transform: "translateY(500px)" }} />
     </main>
   )
 }
 
-function Home() {
+function MoneyButtons({
+  amount,
+  handleSetAmount,
+}: {
+  amount: string
+  handleSetAmount: (amount: string) => void
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-4">
+      <span className="text-2xl font-bold">Support Amuzeez</span>
+
+      <div className="grid items-center justify-center gap-4 grid-cols-3">
+        {amounts.map((amt) => (
+          <button
+            key={amt}
+            style={{ cursor: "pointer" }}
+            className={`${
+              amt === amount
+                ? "bg-red-500 text-white"
+                : "bg-gray-200 text-gray-800"
+            } font-bold py-2 px-4 rounded`}
+            onClick={() => handleSetAmount(amt)}
+          >
+            ${amt}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+function MoneyButtonsSlot({
+  amount,
+  handleSetAmount,
+}: {
+  amount: string
+  handleSetAmount: (amount: string) => void
+}) {
+  return (
+    <div className=" z4 flex flex-col items-center justify-center gap-4">
+      <span className="text-2xl font-bold">Support Amuzeez</span>
+
+      <div className="grid items-center justify-center gap-2 grid-cols-3">
+        {amounts.map((amt) => (
+          <button
+            key={amt}
+            style={{ cursor: "pointer", fontSize: 14 }}
+            className={`${
+              amt === amount
+                ? "bg-red-500 text-white"
+                : "bg-gray-200 text-gray-800"
+            } font-bold py-1 px-4 rounded border border-red-500`}
+            onClick={() => handleSetAmount(amt)}
+          >
+            ${amt}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Home({
+  amount,
+  setAmount,
+  handleSetAmount,
+}: {
+  amount: string
+  setAmount: React.Dispatch<React.SetStateAction<string>>
+  handleSetAmount: (amount: string) => void
+}) {
   const [state, dispatch] = useReducer(reducer, activities)
   const [addedActivity, setAddedActivity] = useState<string>("")
 
@@ -111,8 +198,15 @@ function Home() {
 
   const [chosenActivity, setChosenActivity] = useState<string>("")
 
+  // const [showSupport, setShowSupport] = useState<boolean>(false)
+  const [spinCount, setSpinCount] = useState<number>(0)
+
   const [showBorder, setShowBorder] = useState<boolean>(false)
   const [showResult, setShowResult] = useState<boolean>(true)
+
+  const showSupport = useMemo(() => {
+    return spinCount > 0 && spinCount % 10 === 0
+  }, [spinCount])
 
   const resetChosenActivity = useCallback(() => {
     setChosenActivity("")
@@ -161,6 +255,7 @@ function Home() {
   )
 
   const selectRandomActivity = useCallback(() => {
+    setSpinCount((prev) => prev + 1)
     const randomActivity =
       state[selectedActivityType].activities[
         Math.floor(
@@ -392,60 +487,93 @@ function Home() {
   return (
     // <main className="p-4 flex items-center justify-center flex-col gap-8">
     <div className="p-4 flex justify-center items-center flex-col ">
-      <div
-        className="w-full bg-gray-700 rounded-3xl relative justify-center z-3 p-8"
+      {/* <div
+        className="w-full bg-gray-700 rounded-3xl relative justify-center z-3 p-4 pt-8"
         style={{ maxWidth: 600, minWidth: 400 }}
-      >
-        <div className="absolute top-1 right-1 p-2 z-5">
-          <button onClick={() => setOpenActivityManager(true)}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
-        </div>
+      > */}
+      <div className="absolute top-1 right-1 p-2 z-5">
+        <button onClick={() => setOpenActivityManager(true)}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-10 w-10"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
 
+      <div
+        className={`flex items-center justify-center flex-col gap-1 mt-4 z-4`}
+      >
         <div
-          className={`flex items-center justify-center flex-col gap-1 mt-4 z-4`}
+          className="z-1 relative"
+          style={{
+            width: "500px",
+            height: "500px",
+            minWidth: "500px",
+            maxWidth: "500px",
+          }}
         >
-          <div className="z-1 relative" style={{ width: 500, height: 500 }}>
-            <Image src="/slot4.png" alt="slot" fill={true} />
+          <div className="z-1">
+            <Image src="/slot4.png" alt="slot" width={500} height={500} />
+          </div>
+          <div
+            className="absolute bg-gray-600 rounded-md p-2"
+            style={{ top: 30, left: 107, right: 50, width: 266 }}
+          >
+            <span className=" text-5xl font-bold text-red-500 text-center flex items-center justify-center">
+              Amuzeez
+            </span>
+          </div>
+          {!chosenActivity && (
             <div
-              className="absolute bg-gray-600 rounded-md p-2"
-              style={{ top: 30, left: 107, right: 50, width: 266 }}
+              className="absolute"
+              style={{ top: 110, left: 92, width: 296 }}
             >
-              <span className=" text-5xl font-bold text-red-500 text-center flex items-center justify-center">
-                Amuzeez
-              </span>
-            </div>
-            {!chosenActivity && (
-              <div
-                className="absolute"
-                style={{ top: 110, left: 92, width: 296 }}
-              >
-                <span
-                  className={`
+              <span
+                className={`
               ${
                 showBorder
                   ? "text-2xl font-bold text-red-500 p-4 h-36 text-center flex items-center justify-center"
                   : "p-4 text-2xl text-black font-bold text-center h-36 flex items-center justify-center"
               }
               `}
-                >
-                  Pull the lever!
-                </span>
+              >
+                Pull the lever!
+              </span>
+            </div>
+          )}
+
+          {showSupport && (
+            <div
+              className="absolute z-4"
+              style={{ top: 110, left: 92, width: 296, zIndex: 4 }}
+            >
+              <div
+                className={`
+              ${
+                showBorder
+                  ? "text-2xl font-bold text-red-500 p-4 h-36 text-center flex items-center justify-center"
+                  : "p-4 text-2xl text-black font-bold text-center h-36 flex items-center justify-center"
+              }
+              `}
+              >
+                <MoneyButtonsSlot
+                  amount={amount}
+                  handleSetAmount={handleSetAmount}
+                />
               </div>
-            )}
+            </div>
+          )}
+          {!showSupport && (
             <div
               className="absolute"
               style={{ top: 110, left: 92, width: 296 }}
@@ -463,52 +591,53 @@ function Home() {
                 {chosenActivity}
               </span>
             </div>
-            <div
-              className="absolute flex items-center justify-center w-full h-full gap-3 z-11"
-              style={{
-                bottom: "-110px",
-                left: "-9px",
-              }}
-            >
-              {Object.values(activities).map((act) => (
-                <button
-                  key={act.id}
-                  style={{ fontSize: 13, padding: 3.5 }}
-                  className={`outline-none text-black font-bold ${
-                    act.type === selectedActivityType
-                      ? "outline-4 outline-black"
-                      : "outline-gray-600"
-                  } rounded-lg whitespace-nowrap`}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    resetChosenActivity()
-                    setSelectedActivityType(act.type)
-                  }}
-                >
-                  {act.display}
-                </button>
-              ))}
-            </div>
-            <div
-              className="w-full flex justify-center absolute rounded-full "
-              style={{
-                top: "22.2%",
-                right: "-36.5%",
-              }}
-            >
+          )}
+          <div
+            className="absolute flex items-center justify-center w-full h-full gap-3 z-11"
+            style={{
+              bottom: "-110px",
+              left: "-9px",
+            }}
+          >
+            {Object.values(activities).map((act) => (
               <button
-                className="border-2 border-gray-800 rounded-full p-2 bg-black flex items-center justify-center"
-                type="button"
-                style={{ fontSize: 12, height: "42px", width: "42px" }}
-                onClick={selectRandomActivity}
+                key={act.id}
+                style={{ fontSize: 13, padding: 3.5 }}
+                className={`outline-none text-black font-bold ${
+                  act.type === selectedActivityType
+                    ? "outline-4 outline-black"
+                    : "outline-gray-600"
+                } rounded-lg whitespace-nowrap`}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  resetChosenActivity()
+                  setSelectedActivityType(act.type)
+                }}
               >
-                Spin
+                {act.display}
               </button>
-            </div>
+            ))}
+          </div>
+          <div
+            className="w-full flex justify-center absolute rounded-full "
+            style={{
+              top: "22.2%",
+              right: "-36.5%",
+            }}
+          >
+            <button
+              className="border-2 border-gray-800 rounded-full p-2 bg-black flex items-center justify-center"
+              type="button"
+              style={{ fontSize: 12, height: "42px", width: "42px" }}
+              onClick={selectRandomActivity}
+            >
+              Spin
+            </button>
           </div>
         </div>
       </div>
     </div>
+    // </div>
   )
 }
 
