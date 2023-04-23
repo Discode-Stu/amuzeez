@@ -95,20 +95,27 @@ export default function Main() {
         <Home amount={amount} handleSetAmount={handleSetAmount} />
       </div>
       <div
-        // onClick={zoomToBottomRef}
-        className="flex flex-col items-center justify-center gap-4 mb-2 z-20"
+        className="z-20"
+        style={{
+          transform: "translateX(-18px)",
+        }}
       >
-        <MoneyButtons amount={amount} handleSetAmount={handleSetAmount} />
-      </div>
-      {amounts.map((amt) => (
         <div
-          key={amt}
-          className={`${amt === amount ? "block" : "hidden"}`}
-          onClick={() => setAmount(amt)}
+          // onClick={zoomToBottomRef}
+          className="flex flex-col items-center justify-center gap-4 mb-2 z-20"
         >
-          <PayPal amount={amt} />
+          <MoneyButtons amount={amount} handleSetAmount={handleSetAmount} />
         </div>
-      ))}
+        {amounts.map((amt) => (
+          <div
+            key={amt}
+            className={`${amt === amount ? "block" : "hidden"}`}
+            onClick={() => setAmount(amt)}
+          >
+            <PayPal amount={amt} />
+          </div>
+        ))}
+      </div>
       <div ref={bottomRef} style={{ transform: "translateY(500px)" }} />
     </main>
   )
