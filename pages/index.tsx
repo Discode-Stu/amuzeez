@@ -89,13 +89,10 @@ export default function Main() {
   }
 
   return (
-    <main className="flex flex-col justify-center items-center relative">
+    // <main className="flex flex-col justify-center items-center relative">
+    <main>
       <div className="z-10">
-        <Home
-          amount={amount}
-          setAmount={setAmount}
-          handleSetAmount={handleSetAmount}
-        />
+        <Home amount={amount} handleSetAmount={handleSetAmount} />
       </div>
       <div
         // onClick={zoomToBottomRef}
@@ -180,11 +177,9 @@ function MoneyButtonsSlot({
 
 function Home({
   amount,
-  setAmount,
   handleSetAmount,
 }: {
   amount: string
-  setAmount: React.Dispatch<React.SetStateAction<string>>
   handleSetAmount: (amount: string) => void
 }) {
   const [state, dispatch] = useReducer(reducer, activities)
@@ -486,12 +481,14 @@ function Home({
   //! main page
   return (
     // <main className="p-4 flex items-center justify-center flex-col gap-8">
-    <div className="p-4 flex justify-center items-center flex-col ">
-      {/* <div
-        className="w-full bg-gray-700 rounded-3xl relative justify-center z-3 p-4 pt-8"
-        style={{ maxWidth: 600, minWidth: 400 }}
-      > */}
-      <div className="absolute top-1 right-1 p-2 z-5">
+    // <div className="p-4 flex justify-center items-center flex-col ">
+    // <div>
+    <div
+      className="w-full relative justify-center z-3 p-4 pt-8 slot-container"
+      // className="w-full bg-gray-700 rounded-3xl relative justify-center z-3 p-4 pt-8"
+      // style={{ maxWidth: 600, minWidth: 400 }}
+    >
+      <div className="absolute top-1 right-1 p-2 z-5 ">
         <button onClick={() => setOpenActivityManager(true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -518,16 +515,17 @@ function Home({
           style={{
             width: "500px",
             height: "500px",
-            minWidth: "500px",
-            maxWidth: "500px",
           }}
         >
-          <div className="z-1">
-            <Image src="/slot4.png" alt="slot" width={500} height={500} />
+          <div
+            className="z-1 relative"
+            style={{ width: "480px", maxWidth: "480px", height: "500px" }}
+          >
+            <Image src="/slot4.png" alt="slot" fill />
           </div>
           <div
             className="absolute bg-gray-600 rounded-md p-2"
-            style={{ top: 30, left: 107, right: 50, width: 266 }}
+            style={{ top: 30, left: 100, right: 50, width: 266 }}
           >
             <span className=" text-5xl font-bold text-red-500 text-center flex items-center justify-center">
               Amuzeez
@@ -536,7 +534,7 @@ function Home({
           {!chosenActivity && (
             <div
               className="absolute"
-              style={{ top: 110, left: 92, width: 296 }}
+              style={{ top: 110, left: 85, width: 296 }}
             >
               <span
                 className={`
@@ -555,7 +553,7 @@ function Home({
           {showSupport && (
             <div
               className="absolute z-4"
-              style={{ top: 110, left: 92, width: 296, zIndex: 4 }}
+              style={{ top: 110, left: 85, width: 296, zIndex: 4 }}
             >
               <div
                 className={`
@@ -576,7 +574,7 @@ function Home({
           {!showSupport && (
             <div
               className="absolute"
-              style={{ top: 110, left: 92, width: 296 }}
+              style={{ top: 110, left: 85, width: 296 }}
             >
               <span
                 className={`
@@ -593,36 +591,45 @@ function Home({
             </div>
           )}
           <div
-            className="absolute flex items-center justify-center w-full h-full gap-3 z-11"
+            className="absolute z-11"
             style={{
-              bottom: "-110px",
-              left: "-9px",
+              width: 260,
+              height: 100,
+              left: 98,
+              top: 333,
             }}
           >
-            {Object.values(activities).map((act) => (
-              <button
-                key={act.id}
-                style={{ fontSize: 13, padding: 3.5 }}
-                className={`outline-none text-black font-bold ${
-                  act.type === selectedActivityType
-                    ? "outline-4 outline-black"
-                    : "outline-gray-600"
-                } rounded-lg whitespace-nowrap`}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  resetChosenActivity()
-                  setSelectedActivityType(act.type)
-                }}
-              >
-                {act.display}
-              </button>
-            ))}
+            <div
+              className="grid grid-cols-3"
+              style={{
+                gridGap: "15px 20px",
+              }}
+            >
+              {Object.values(activities).map((act) => (
+                <button
+                  key={act.id}
+                  style={{ fontSize: 13, padding: 3.5, minWidth: 80 }}
+                  className={`outline-none text-black font-bold ${
+                    act.type === selectedActivityType
+                      ? "outline-4 outline-black"
+                      : "outline-gray-600"
+                  } rounded-lg whitespace-nowrap`}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    resetChosenActivity()
+                    setSelectedActivityType(act.type)
+                  }}
+                >
+                  {act.display}
+                </button>
+              ))}
+            </div>
           </div>
           <div
             className="w-full flex justify-center absolute rounded-full "
             style={{
-              top: "22.2%",
-              right: "-36.5%",
+              top: "22%",
+              right: "-33%",
             }}
           >
             <button
